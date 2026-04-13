@@ -19,6 +19,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/habits', habitRoutes);
 app.use('/api/friends', friendRoutes);
 
+// Health Check
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Discipline Tracker API is running 🚀' });
+});
+
 // Database Connection
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
