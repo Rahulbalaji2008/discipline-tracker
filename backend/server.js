@@ -20,9 +20,13 @@ app.use('/api/habits', habitRoutes);
 app.use('/api/friends', friendRoutes);
 
 // Database Connection
-// Database Connection
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/discipline-tracker';
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  console.error('FATAL ERROR: MONGO_URI is not defined. Set it in your environment variables (e.g., Render Dashboard > Environment).');
+  process.exit(1);
+}
 
 mongoose.connect(MONGO_URI)
   .then(() => {
@@ -33,4 +37,5 @@ mongoose.connect(MONGO_URI)
   })
   .catch((err) => {
     console.error('Failed to connect to MongoDB', err);
+    process.exit(1);
   });
