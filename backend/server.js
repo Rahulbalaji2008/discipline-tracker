@@ -22,7 +22,7 @@ app.use('/api/friends', friendRoutes);
 // Database Connection
 // Database Connection
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/discipline-tracker";
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/discipline-tracker';
 
 mongoose.connect(MONGO_URI)
   .then(() => {

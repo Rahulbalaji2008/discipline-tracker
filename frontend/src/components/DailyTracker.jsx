@@ -6,6 +6,7 @@ const DailyTracker = ({ todayHabit, onHabitSubmitted }) => {
   const [avoidedInstagram, setAvoidedInstagram] = useState(false);
   const [avoidedDistractions, setAvoidedDistractions] = useState(false);
   const [avoidedJunkFood, setAvoidedJunkFood] = useState(false);
+  const [didWorkout, setDidWorkout] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -15,7 +16,8 @@ const DailyTracker = ({ todayHabit, onHabitSubmitted }) => {
       await api.post('/habits', {
         avoidedInstagram,
         avoidedDistractingContent: avoidedDistractions,
-        avoidedJunkFood
+        avoidedJunkFood,
+        didWorkout
       });
       onHabitSubmitted();
     } catch (err) {
@@ -46,6 +48,10 @@ const DailyTracker = ({ todayHabit, onHabitSubmitted }) => {
           <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
             {todayHabit.avoidedJunkFood ? <CheckCircle2 size={16} className="text-brand-500" /> : <Circle size={16} />} 
             Avoided Junk Food
+          </div>
+          <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+            {todayHabit.didWorkout ? <CheckCircle2 size={16} className="text-brand-500" /> : <Circle size={16} />} 
+            Did a Workout
           </div>
         </div>
       </div>
@@ -89,6 +95,17 @@ const DailyTracker = ({ todayHabit, onHabitSubmitted }) => {
             />
             <span className="ml-3 text-gray-700 dark:text-gray-200 font-medium">I avoided Junk Food</span>
             <span className="ml-auto text-xs font-bold text-brand-500 bg-brand-50 dark:bg-brand-900/30 px-2 py-1 rounded-full">+20 pts (Max)</span>
+          </label>
+          
+          <label className="flex items-center p-3 border border-gray-200 dark:border-dark-border rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
+            <input 
+              type="checkbox" 
+              className="w-5 h-5 text-brand-500 rounded border-gray-300 focus:ring-brand-500"
+              checked={didWorkout}
+              onChange={(e) => setDidWorkout(e.target.checked)}
+            />
+            <span className="ml-3 text-gray-700 dark:text-gray-200 font-medium">I did a Workout</span>
+            <span className="ml-auto text-xs font-bold text-brand-500 bg-brand-50 dark:bg-brand-900/30 px-2 py-1 rounded-full">+30 pts</span>
           </label>
         </div>
         

@@ -22,6 +22,10 @@ const habitLogSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  didWorkout: {
+    type: Boolean,
+    default: false,
+  },
   pointsEarned: {
     type: Number,
     default: 0,

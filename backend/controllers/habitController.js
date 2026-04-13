@@ -23,7 +23,7 @@ export const getTodayHabit = async (req, res) => {
 };
 
 export const submitHabit = async (req, res) => {
-  const { avoidedInstagram, avoidedDistractingContent, avoidedJunkFood } = req.body;
+  const { avoidedInstagram, avoidedDistractingContent, avoidedJunkFood, didWorkout } = req.body;
   const userId = req.user._id;
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Normalize to local midnight
@@ -55,6 +55,11 @@ export const submitHabit = async (req, res) => {
        earned = 0; 
     }
 
+    // Add exactly 30 points if they worked out
+    if (didWorkout) {
+      earned += 30;
+    }
+
     // Creating log
     habit = await HabitLog.create({
       userId,
@@ -62,6 +67,7 @@ export const submitHabit = async (req, res) => {
       avoidedInstagram,
       avoidedDistractingContent,
       avoidedJunkFood,
+      didWorkout,
       pointsEarned: earned
     });
 
@@ -78,14 +84,14 @@ export const submitHabit = async (req, res) => {
     if (lastLogDate === yesterdayStr) {
       // Habit logged yesterday, increase streak
       // Only count towards streak if at least ONE habit is marked YES
-      if (avoidedInstagram || avoidedDistractingContent || avoidedJunkFood) {
+      if (avoidedInstagram || avoidedDistractingContent || avoidedJunkFood || didWorkout) {
         user.currentStreak += 1;
       } else {
         user.currentStreak = 0; 
       }
     } else if (lastLogDate !== dateStr) {
       // Missed at least one day
-      if (avoidedInstagram || avoidedDistractingContent || avoidedJunkFood) {
+      if (avoidedInstagram || avoidedDistractingContent || avoidedJunkFood || didWorkout) {
         user.currentStreak = 1;
       } else {
         user.currentStreak = 0;
